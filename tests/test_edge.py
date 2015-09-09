@@ -1,3 +1,4 @@
+from past.builtins import basestring
 from nose.tools import eq_, raises
 from pyculiarity import detect_ts, detect_vec
 from pyculiarity.date_utils import date_format

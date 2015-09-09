@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from past.builtins import basestring
 from collections import namedtuple
-from detect_anoms import detect_anoms
+from pyculiarity.detect_anoms import detect_anoms
 from math import ceil
 from pandas import DataFrame, Series
 from pandas.lib import Timestamp

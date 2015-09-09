@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from past.builtins import basestring
 from datetime import datetime
 from heapq import nlargest
 from re import match

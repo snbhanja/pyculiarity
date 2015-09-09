@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from past.builtins import basestring
 import datetime
 
 from numpy import asarray, ceil, int64
@@ -46,11 +46,11 @@ def stl(data, ns, np=None):
 
     res_ts = asarray(result[0])
     try:
-        res_ts = pandas.DataFrame({"seasonal" : pandas.Series(res_ts[:,0],
+        res_ts = pandas.DataFrame({"seasonal": pandas.Series(res_ts[:,0],
                                                            index=data.index),
-                                   "trend" : pandas.Series(res_ts[:,1],
+                                   "trend": pandas.Series(res_ts[:,1],
                                                            index=data.index),
-                                   "remainder" : pandas.Series(res_ts[:,2],
+                                   "remainder": pandas.Series(res_ts[:,2],
                                                            index=data.index)})
     except:
         return res_ts, data

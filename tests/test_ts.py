@@ -1,3 +1,4 @@
+from past.builtins import basestring
 from nose.tools import eq_
 from pyculiarity import detect_ts, detect_vec
 from unittest import TestCase
@@ -7,14 +8,10 @@ import os
 class TestTS(TestCase):
     def setUp(self):
         self.path = os.path.dirname(os.path.realpath(__file__))
-        self.raw_data = pd.read_csv(os.path.join(self.path,
-                                                 'raw_data.csv'),
-                                    usecols=['timestamp', 'count'])
+        self.raw_data = pd.read_csv(os.path.join(self.path, 'raw_data.csv'), usecols=['timestamp', 'count'])
 
     def test_both_directions_with_plot(self):
-        results = detect_ts(self.raw_data, max_anoms=0.02,
-                            direction='both', only_last='day',
-                            plot=False)
+        results = detect_ts(self.raw_data, max_anoms=0.02, direction='both', only_last='day', plot=False)
         eq_(len(results['anoms'].columns), 2)
         eq_(len(results['anoms'].iloc[:,1]), 25)
 

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from past.builtins import basestring
 from collections import namedtuple
-from date_utils import format_timestamp, get_gran, date_format, datetimes_from_ts
-from detect_anoms import detect_anoms
+from pyculiarity.date_utils import format_timestamp, get_gran, date_format, datetimes_from_ts
+from pyculiarity.detect_anoms import detect_anoms
 from math import ceil
 from pandas import DataFrame
 from pandas.lib import Timestamp
@@ -159,7 +160,11 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
         'hr': 24,
         'day': 7
     }
+
     period = gran_period.get(gran)
+    print('PERIOD FOUND')
+    print(period)
+
     if not period:
         raise ValueError('%s granularity detected. This is currently not supported.' % gran)
     num_obs = len(df.value)
