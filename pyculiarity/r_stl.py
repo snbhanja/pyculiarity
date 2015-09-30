@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-from past.builtins import basestring
-import datetime
 
-from numpy import asarray, ceil, int64
+from numpy import asarray, int64
 import pandas
 import rpy2.robjects as robjects
-from rpy2.robjects.packages import importr
 
-def stl(data, ns, np=None):
+
+def stl(data, np=None):
     """
     Seasonal-Trend decomposition procedure based on LOESS
 
@@ -34,24 +32,21 @@ def stl(data, ns, np=None):
     ts_ = robjects.r['ts']
     stl_ = robjects.r['stl']
 
-    if isinstance(data.index[0], int64):
-        start = int(data.index[0])
+    if isinstance(_data.index[0], int64):
+        start = int(_data.index[0])
     else:
-        start = robjects.IntVector([data.index[0].year, data.index[0].month])
+        start = robjects.IntVector([_data.index[0].year, _data.index[0].month])
 
-    ts = ts_(robjects.FloatVector(asarray(data)), start=start, frequency=np)
-
+    ts = ts_(robjects.FloatVector(asarray(_data)), start=start, frequency=np)
 
     result = stl_(ts, "periodic", robust=True)
 
     res_ts = asarray(result[0])
     try:
-        res_ts = pandas.DataFrame({"seasonal": pandas.Series(res_ts[:,0],
-                                                           index=data.index),
-                                   "trend": pandas.Series(res_ts[:,1],
-                                                           index=data.index),
-                                   "remainder": pandas.Series(res_ts[:,2],
-                                                           index=data.index)})
+        res_ts = pandas.DataFrame({"seasonal": pandas.Series(res_ts[:, 0], index=_data.index),
+                                   "trend": pandas.Series(res_ts[:, 1], index=_data.index),
+                                   "remainder": pandas.Series(res_ts[:, 2], index=_data.index)
+                                   })
     except:
         return res_ts, data
 

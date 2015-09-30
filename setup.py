@@ -12,7 +12,7 @@ Original R source Copyright 2015 Twitter, Inc and other contributors
 Licensed under the GPLv3
 """
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='pyculiarity',

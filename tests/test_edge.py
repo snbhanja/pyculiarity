@@ -1,11 +1,12 @@
-from past.builtins import basestring
-from nose.tools import eq_, raises
+from unittest import TestCase
+import os
+
+from nose.tools import eq_
+import pandas as pd
+
 from pyculiarity import detect_ts, detect_vec
 from pyculiarity.date_utils import date_format
-from unittest import TestCase
-import pandas as pd
-import os
-import numpy as np
+
 
 class TestEdge(TestCase):
     def setUp(self):

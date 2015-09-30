@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 __author__ = 'willmcginnis'
-from past.builtins import basestring
-from future.utils import lmap
-import datetime
 from pandas import DataFrame
-from numpy import asarray, ceil, int64
-import pandas
 from numpy import hstack
 import statsmodels.api as sm
 
 
-def stl(data, ns, np=3600):
+def stl(data, np=3600):
     """
     Seasonal-Trend decomposition procedure based on LOESS
 
@@ -35,7 +30,8 @@ def stl(data, ns, np=3600):
     _data = _data.dropna()
 
     # here we use the python statsmodels STL decomposition instead of R's decompose
-    res = sm.tsa.seasonal_decompose(_data.values, model='multiplicative', freq=np)
+
+    res = sm.tsa.seasonal_decompose(data.values, model='additive', freq=np)
     res_ts = DataFrame(hstack((res.seasonal.reshape(-1, 1), res.trend.reshape(-1, 1), res.resid.reshape(-1, 1))), index=_data.index, columns=['trend', 'seasonal', 'remainder'])
     res_ts = res_ts.fillna(0)
     return res_ts

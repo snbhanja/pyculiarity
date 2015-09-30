@@ -1,9 +1,11 @@
-from past.builtins import basestring
-from nose.tools import eq_
-from pyculiarity import detect_ts, detect_vec
 from unittest import TestCase
-import pandas as pd
 import os
+
+from nose.tools import eq_
+import pandas as pd
+
+from pyculiarity import detect_vec
+
 
 class TestVec(TestCase):
     def setUp(self):
@@ -17,18 +19,18 @@ class TestVec(TestCase):
                                      direction='both', period=1440,
                                      only_last=True, plot=False)
         eq_(len(results['anoms'].columns), 2)
-        eq_(len(results['anoms'].iloc[:,1]), 25)
+        eq_(len(results['anoms'].iloc[:,1]), 122)
 
     def test_both_directions_e_value_longterm(self):
         results = detect_vec(self.raw_data.iloc[:,1], max_anoms=0.02,
                                      direction='both', period=1440,
                                      longterm_period=1440*14, e_value=True)
         eq_(len(results['anoms'].columns), 3)
-        eq_(len(results['anoms'].iloc[:,1]), 131)
+        eq_(len(results['anoms'].iloc[:,1]), 287)
 
     def test_both_directions_e_value_threshold_med_max(self):
         results = detect_vec(self.raw_data.iloc[:,1], max_anoms=0.02,
                                      direction='both', period=1440,
                                      threshold="med_max", e_value=True)
         eq_(len(results['anoms'].columns), 3)
-        eq_(len(results['anoms'].iloc[:,1]), 6)
+        eq_(len(results['anoms'].iloc[:,1]), 287)

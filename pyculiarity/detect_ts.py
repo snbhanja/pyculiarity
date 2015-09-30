@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from past.builtins import basestring
 from collections import namedtuple
-from pyculiarity.date_utils import format_timestamp, get_gran, date_format, datetimes_from_ts
-from pyculiarity.detect_anoms import detect_anoms
-from math import ceil
+import datetime
+
+from past.builtins import basestring
 from pandas import DataFrame
 from pandas.lib import Timestamp
-import datetime
 import numpy as np
+
+from pyculiarity.date_utils import format_timestamp, get_gran, date_format
+from pyculiarity.detect_anoms import detect_anoms
 
 Direction = namedtuple('Direction', ['one_tail', 'upper_tail'])
 
@@ -162,8 +163,6 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
     }
 
     period = gran_period.get(gran)
-    print('PERIOD FOUND')
-    print(period)
 
     if not period:
         raise ValueError('%s granularity detected. This is currently not supported.' % gran)

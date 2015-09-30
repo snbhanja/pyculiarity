@@ -1,19 +1,16 @@
-from past.builtins import basestring
-from future.utils import lmap, lrange
-from pyculiarity.date_utils import format_timestamp
 from itertools import groupby
-from math import trunc, sqrt
-from pyculiarity.py_stl import stl
+from math import sqrt
+
+from future.utils import lmap, lrange
 from scipy.stats import t as student_t
 from statsmodels.robust.scale import mad
 import numpy as np
 import pandas as ps
-import statsmodels.api as sm
-import sys
 
-def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
-                 use_decomp=True, one_tail=True,
-                 upper_tail=True, verbose=False):
+from pyculiarity.py_stl import stl
+
+
+def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None, use_decomp=True, one_tail=True, upper_tail=True, verbose=False):
     """
     # Detects anomalies in a time series using S-H-ESD.
     #
@@ -29,6 +26,7 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
     # Returns:
     #   A dictionary containing the anomalies (anoms) and decomposition components (stl).
     """
+
     if num_obs_per_period is None:
         raise ValueError("must supply period length for time series decomposition")
 
@@ -68,8 +66,7 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
             raise ValueError('Unsupported resample period: %d' % resample_period)
         data = data.resample(resample_period)
 
-
-    decomp = stl(data.value, "periodic", np=num_obs_per_period)
+    decomp = stl(data.value, np=num_obs_per_period)
 
     # Remove the seasonal component, and the median of the data to create the univariate remainder
     d = {
@@ -90,7 +87,7 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
     if max_outliers == 0:
         raise ValueError("With longterm=TRUE, AnomalyDetection splits the data into 2 week periods by default. You have %d observations in a period, which is too few. Set a higher piecewise_median_period_weeks." % num_obs)
 
-    ## Define values and vectors.
+    # Define values and vectors.
     n = len(data.timestamp)
     R_idx = lrange(max_outliers)
 
@@ -112,7 +109,7 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
         if data_sigma == 0:
             break
 
-        ares = ares / float(data_sigma)
+        ares /= float(data_sigma)
 
         R = ares.max()
 
