@@ -11,14 +11,16 @@ def datetimes_from_ts(column):
     return column.map(
         lambda datestring: datetime.fromtimestamp(int(datestring), tz=pytz.utc))
 
+
 def date_format(column, format):
     return column.map(lambda datestring: datetime.strptime(datestring, format))
+
 
 def format_timestamp(indf, index=0):
     if indf.dtypes[0].type is np.datetime64:
         return indf
 
-    column = indf.iloc[:,index]
+    column = indf.iloc[:, index]
 
     if match("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} \\+\\d{4}$",
              column[0]):
@@ -36,16 +38,24 @@ def format_timestamp(indf, index=0):
     elif match("^\\d{10}$", column[0]):
         column = datetimes_from_ts(column)
 
-    indf.iloc[:,index] = column
+    indf.iloc[:, index] = column
 
     return indf
 
+
 def get_gran(tsdf, index=0):
-    col = tsdf.iloc[:,index]
+    col = tsdf.iloc[:, index]
     n = len(col)
 
     largest, second_largest = nlargest(2, col)
-    gran = int(round(np.timedelta64(largest - second_largest) / np.timedelta64(1, 's')))
+    gran = int(
+        round(
+            np.timedelta64(
+                largest -
+                second_largest) /
+            np.timedelta64(
+                1,
+                's')))
 
     if gran >= 86400:
         return "day"

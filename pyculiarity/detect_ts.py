@@ -12,11 +12,12 @@ from pyculiarity.detect_anoms import detect_anoms
 
 Direction = namedtuple('Direction', ['one_tail', 'upper_tail'])
 
+
 def detect_ts(df, max_anoms=0.10, direction='pos',
               alpha=0.05, only_last=None, threshold=None,
               e_value=False, longterm=False,
               piecewise_median_period_weeks=2, plot=False,
-              y_log=False, xlabel = '', ylabel = 'count',
+              y_log=False, xlabel='', ylabel='count',
               title=None, verbose=False):
     """
     Anomaly Detection Using Seasonal Hybrid ESD Test
@@ -76,13 +77,13 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
     if not isinstance(df, DataFrame):
         raise ValueError("data must be a single data frame.")
     else:
-        if len(df.columns) != 2 or not df.iloc[:,1].map(np.isreal).all():
+        if len(df.columns) != 2 or not df.iloc[:, 1].map(np.isreal).all():
             raise ValueError(("data must be a 2 column data.frame, with the"
                               "first column being a set of timestamps, and "
                               "the second coloumn being numeric values."))
 
         if (not (df.dtypes[0].type is np.datetime64)
-            and not (df.dtypes[0].type is np.int64)):
+                and not (df.dtypes[0].type is np.int64)):
             df = format_timestamp(df)
 
     if list(df.columns.values) != ["timestamp", "value"]:
@@ -94,7 +95,7 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
         raise ValueError(
             ("max_anoms must be less than 50% of "
              "the data points (max_anoms =%f data_points =%s).")
-                         % (round(max_anoms * length, 0), length))
+            % (round(max_anoms * length, 0), length))
 
     if not direction in ['pos', 'neg', 'both']:
         raise ValueError("direction options are: pos | neg | both.")
@@ -108,7 +109,7 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
     if only_last and not only_last in ['day', 'hr']:
         raise ValueError("only_last must be either 'day' or 'hr'")
 
-    if not threshold in [None,'med_max','p95','p99']:
+    if not threshold in [None, 'med_max', 'p95', 'p99']:
         raise ValueError("threshold options are: None | med_max | p95 | p99")
 
     if not isinstance(e_value, bool):
@@ -165,7 +166,9 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
     period = gran_period.get(gran)
 
     if not period:
-        raise ValueError('%s granularity detected. This is currently not supported.' % gran)
+        raise ValueError(
+            '%s granularity detected. This is currently not supported.' %
+            gran)
     num_obs = len(df.value)
 
     clamp = (1 / float(num_obs))
@@ -197,8 +200,8 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
                             & (df.timestamp < end_date)]
             else:
                 sub_df = df[(df.timestamp >
-                     (last_date - datetime.timedelta(days=num_days_in_period)))
-                    & (df.timestamp <= last_date)]
+                             (last_date - datetime.timedelta(days=num_days_in_period)))
+                            & (df.timestamp <= last_date)]
             all_data.append(sub_df)
     else:
         all_data = [df]
@@ -240,7 +243,8 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
         else:
             anoms = DataFrame(columns=['timestamp', 'value'])
 
-        # Filter the anomalies using one of the thresholding functions if applicable
+        # Filter the anomalies using one of the thresholding functions if
+        # applicable
         if threshold:
             # Calculate daily max values
             periodic_maxes = df.groupby(

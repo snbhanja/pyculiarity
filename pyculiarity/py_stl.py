@@ -29,9 +29,19 @@ def stl(data, np=3600):
     _data = data.copy()
     _data = _data.dropna()
 
-    # here we use the python statsmodels STL decomposition instead of R's decompose
+    # here we use the python statsmodels STL decomposition instead of R's
+    # decompose
 
     res = sm.tsa.seasonal_decompose(data.values, model='additive', freq=np)
-    res_ts = DataFrame(hstack((res.seasonal.reshape(-1, 1), res.trend.reshape(-1, 1), res.resid.reshape(-1, 1))), index=_data.index, columns=['trend', 'seasonal', 'remainder'])
+    res_ts = DataFrame(hstack((res.seasonal.reshape(-1,
+                                                    1),
+                               res.trend.reshape(-1,
+                                                 1),
+                               res.resid.reshape(-1,
+                                                 1))),
+                       index=_data.index,
+                       columns=['trend',
+                                'seasonal',
+                                'remainder'])
     res_ts = res_ts.fillna(0)
     return res_ts

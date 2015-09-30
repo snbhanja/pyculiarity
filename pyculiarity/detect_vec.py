@@ -10,6 +10,7 @@ from pyculiarity.detect_anoms import detect_anoms
 
 Direction = namedtuple('Direction', ['one_tail', 'upper_tail'])
 
+
 def detect_vec(df, max_anoms=0.10, direction='pos',
                alpha=0.05, period=None, only_last=False,
                threshold=None, e_value=False, longterm_period=None,
@@ -72,11 +73,11 @@ def detect_vec(df, max_anoms=0.10, direction='pos',
     """
 
     if (isinstance(df, DataFrame) and
-        len(df.columns) == 1 and
-        df.iloc[:,0].applymap(np.isreal).all(1)):
+            len(df.columns) == 1 and
+            df.iloc[:, 0].applymap(np.isreal).all(1)):
         d = {
-            'timestamp': range(len(df.iloc[:,0])),
-            'value': df.iloc[:,0]
+            'timestamp': range(len(df.iloc[:, 0])),
+            'value': df.iloc[:, 0]
         }
         df = DataFrame(d, index=d['timestamp'])
     elif isinstance(df, Series):
@@ -112,7 +113,7 @@ def detect_vec(df, max_anoms=0.10, direction='pos',
     if not isinstance(only_last, bool):
         raise ValueError("only_last must be a boolean")
 
-    if not threshold in [None,'med_max','p95','p99']:
+    if not threshold in [None, 'med_max', 'p95', 'p99']:
         raise ValueError("threshold options are: None | med_max | p95 | p99")
 
     if not isinstance(e_value, bool):
@@ -201,7 +202,6 @@ def detect_vec(df, max_anoms=0.10, direction='pos',
         else:
             anoms = DataFrame(columns=['timestamp', 'value'])
 
-
         # Filter the anomalies using one of the thresholding
         # functions if applicable
         if threshold:
@@ -234,7 +234,6 @@ def detect_vec(df, max_anoms=0.10, direction='pos',
         all_anoms.drop_duplicates(cols=['timestamp'])
         seasonal_plus_trend.drop_duplicates(cols=['timestamp'])
 
-
     # -- If only_last was set by the user, create subset of
     # the data that represent the most recent period
     if only_last:
@@ -242,7 +241,7 @@ def detect_vec(df, max_anoms=0.10, direction='pos',
             'timestamp': df.timestamp.iloc[-period:],
             'value': df.value.iloc[-period:]
         }
-        x_subset_single_period = DataFrame(d, index = d['timestamp'])
+        x_subset_single_period = DataFrame(d, index=d['timestamp'])
         past_obs = period * 7
         if num_obs < past_obs:
             past_obs = num_obs - period
