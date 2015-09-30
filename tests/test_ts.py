@@ -27,7 +27,7 @@ class TestTS(TestCase):
             only_last='day',
             plot=False)
         eq_(len(results['anoms'].columns), 2)
-        eq_(len(results['anoms'].iloc[:, 1]), 122)
+        eq_(len(results['anoms'].iloc[:, 1]), 21)
 
     def test_both_directions_e_value_longterm(self):
         results = detect_ts(
@@ -38,7 +38,7 @@ class TestTS(TestCase):
             plot=False,
             e_value=True)
         eq_(len(results['anoms'].columns), 3)
-        eq_(len(results['anoms'].iloc[:, 1]), 287)
+        eq_(len(results['anoms'].iloc[:, 1]), 114)
 
     def test_both_directions_e_value_threshold_med_max(self):
         results = detect_ts(
@@ -48,4 +48,4 @@ class TestTS(TestCase):
             threshold="med_max",
             e_value=True)
         eq_(len(results['anoms'].columns), 3)
-        eq_(len(results['anoms'].iloc[:, 1]), 2)
+        eq_(len(results['anoms'].iloc[:, 1]), 4)

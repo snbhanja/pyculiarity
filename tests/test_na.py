@@ -23,7 +23,7 @@ class TestNAs(TestCase):
         results = detect_ts(self.raw_data, max_anoms=0.02,
                             direction='both', plot=False)
         eq_(len(results['anoms'].columns), 2)
-        eq_(len(results['anoms'].iloc[:, 1]), 287)
+        eq_(len(results['anoms'].iloc[:, 1]), 114)
 
     @raises(ValueError)
     def test_handling_of_middle_nas(self):

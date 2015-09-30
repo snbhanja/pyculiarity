@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import namedtuple
 import datetime
+import copy
 
 from past.builtins import basestring
 from pandas import DataFrame
@@ -87,6 +88,7 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
             df = format_timestamp(df)
 
     if list(df.columns.values) != ["timestamp", "value"]:
+        df = copy.deepcopy(df)
         df.columns = ["timestamp", "value"]
 
     # Sanity check all input parameters
@@ -274,7 +276,7 @@ def detect_ts(df, max_anoms=0.10, direction='pos',
 
     # -- If only_last was set by the user,
     # create subset of the data that represent the most recent day
-    if only_last:
+    if only_last is not None:
         start_date = df.timestamp.iget(-1) - datetime.timedelta(days=7)
         start_anoms = df.timestamp.iget(-1) - datetime.timedelta(days=1)
         if gran is "day":

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+__author__ = 'willmcginnis'
+from pandas import DataFrame
+from numpy import hstack
+import statsmodels.api as sm
 
-from numpy import asarray, int64
-import pandas
-import rpy2.robjects as robjects
 
-
-def stl(data, np=None):
+def stl(data, np=3600):
     """
     Seasonal-Trend decomposition procedure based on LOESS
 
@@ -29,25 +29,16 @@ def stl(data, np=None):
     _data = data.copy()
     _data = _data.dropna()
 
-    ts_ = robjects.r['ts']
-    stl_ = robjects.r['stl']
+    # here we use the python statsmodels STL decomposition instead of R's
+    # decompose
 
-    if isinstance(_data.index[0], int64):
-        start = int(_data.index[0])
-    else:
-        start = robjects.IntVector([_data.index[0].year, _data.index[0].month])
-
-    ts = ts_(robjects.FloatVector(asarray(_data)), start=start, frequency=np)
-
-    result = stl_(ts, "periodic", robust=True)
-
-    res_ts = asarray(result[0])
-    try:
-        res_ts = pandas.DataFrame({"seasonal": pandas.Series(res_ts[:, 0], index=_data.index),
-                                   "trend": pandas.Series(res_ts[:, 1], index=_data.index),
-                                   "remainder": pandas.Series(res_ts[:, 2], index=_data.index)
-                                   })
-    except:
-        return res_ts, data
-
+    res = sm.tsa.seasonal_decompose(data.values, model='additive', freq=np)
+    res_ts = DataFrame(hstack((res.trend.reshape(-1, 1),
+                               res.seasonal.reshape(-1, 1),
+                               res.resid.reshape(-1, 1))),
+                       index=_data.index,
+                       columns=['trend',
+                                'seasonal',
+                                'remainder'])
+    res_ts = res_ts.fillna(0)
     return res_ts
