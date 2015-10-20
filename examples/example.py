@@ -2,6 +2,7 @@ from pyculiarity import detect_ts
 import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib
+
 matplotlib.style.use('ggplot')
 
 __author__ = 'willmcginnis'
@@ -14,6 +15,9 @@ if __name__ == '__main__':
     # format the twitter data nicely
     twitter_example_data['timestamp'] = pd.to_datetime(twitter_example_data['timestamp'])
     twitter_example_data.set_index('timestamp', drop=True)
+
+    twitter_example_data.to_csv('raw.csv', index=False)
+    results['anoms'].to_csv('results.csv', index=False)
 
     # make a nice plot
     f, ax = plt.subplots(2, 1, sharex=True)
