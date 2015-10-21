@@ -4,7 +4,7 @@ import os
 from nose.tools import eq_
 import pandas as pd
 
-from pyculiarity import detect_ts, detect_vec
+from pyculiarity import detect_ts
 from pyculiarity.date_utils import date_format
 
 
@@ -12,12 +12,6 @@ class TestEdge(TestCase):
 
     def setUp(self):
         self.path = os.path.dirname(os.path.realpath(__file__))
-
-    def test_check_constant_series(self):
-        s = pd.Series([1] * 1000)
-        results = detect_vec(s, period=14, direction='both', plot=False)
-        eq_(len(results['anoms'].columns), 2)
-        eq_(len(results['anoms'].iloc[:, 1]), 0)
 
     def test_check_midnight_date_format(self):
         data = pd.read_csv(os.path.join(self.path,

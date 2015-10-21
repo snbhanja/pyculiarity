@@ -43,9 +43,6 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
         raise ValueError(
             "Anom detection needs at least 2 periods worth of data")
 
-    # Check if our timestamps are posix
-    posix_timestamp = data.dtypes[0].type is np.datetime64
-
     # run length encode result of isnull, check for internal nulls
     if (len(lmap(lambda x: x[0], list(groupby(ps.isnull(
             ps.concat([ps.Series([np.nan]),

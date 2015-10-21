@@ -9,5 +9,4 @@
 
 __version__ = '0.0.2'
 
-from pyculiarity.detect_vec import detect_vec
 from pyculiarity.detect_ts import detect_ts
