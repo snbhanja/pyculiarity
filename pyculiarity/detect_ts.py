@@ -119,7 +119,7 @@ def detect_ts(df, max_anoms=0.10, direction='pos', alpha=0.05, threshold=None, e
         raise ValueError('%s granularity detected. This is currently not supported.' % (gran, ))
 
     # now convert the timestamp column into a proper timestamp
-    df['timestamp'] = to_datetime(df['timestamp'])
+    df['timestamp'] = df['timestamp'].map(lambda x: datetime.datetime.utcfromtimestamp(x))
 
     num_obs = len(df.value)
 
@@ -240,5 +240,9 @@ def detect_ts(df, max_anoms=0.10, direction='pos', alpha=0.05, threshold=None, e
         }
 
     anoms = DataFrame(d, index=d['timestamp'].index)
+
+    # convert timestamps back to unix time
+    anoms['timestamp'] = anoms['timestamp'].astype(np.int64)
+    anoms['timestamp'] = anoms['timestamp'].map(lambda x: x * 10e-9)
 
     return {'anoms': anoms}
