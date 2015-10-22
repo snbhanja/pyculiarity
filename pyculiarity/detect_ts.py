@@ -175,6 +175,10 @@ def detect_ts(df, max_anoms=0.10, direction='pos', alpha=0.05, threshold=None, e
                                           one_tail=anomaly_direction.one_tail,
                                           upper_tail=anomaly_direction.upper_tail,
                                           verbose=verbose)
+        if s_h_esd_timestamps is None:
+            return {
+                'anoms': DataFrame(columns=["timestamp", "anoms"])
+            }
 
         # store decomposed comps in local variable and overwrite s_h_esd_timestamps to contain only the anom timestamps
         data_decomp = s_h_esd_timestamps['stl']
