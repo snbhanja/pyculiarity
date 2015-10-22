@@ -15,7 +15,7 @@ Direction = namedtuple('Direction', ['one_tail', 'upper_tail'])
 
 
 def detect_ts(df, max_anoms=0.10, direction='pos', alpha=0.05, threshold=None, e_value=False, longterm=False,
-              piecewise_median_period_weeks=2, verbose=False, inplace=True):
+              piecewise_median_period_weeks=2, granularity='day', verbose=False, inplace=True):
     """
     Anomaly Detection Using Seasonal Hybrid ESD Test
     A technique for detecting anomalies in seasonal univariate time series where the input is a
@@ -106,7 +106,7 @@ def detect_ts(df, max_anoms=0.10, direction='pos', alpha=0.05, threshold=None, e
             "piecewise_median_period_weeks must be at greater than 2 weeks")
 
     # if the data is daily, then we need to bump the period to weekly to get multiple examples
-    gran = get_gran(df)
+    gran = granularity
     gran_period = {
         'ms': 60000,
         'sec': 3600,

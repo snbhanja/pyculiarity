@@ -10,9 +10,9 @@ __author__ = 'willmcginnis'
 
 if __name__ == '__main__':
     # first run the models
-    example_data = pd.read_csv('test_anom_data.csv', usecols=['time_stamp', 'temp'])
+    example_data = pd.read_csv('db_test_data.csv', usecols=['time_stamp', 'temp'])
 
-    results = detect_ts(example_data, max_anoms=0.05, alpha=0.001, direction='both')
+    results = detect_ts(example_data, max_anoms=0.05, alpha=0.001, granularity='day', direction='both')
 
     # format the twitter data nicely
     example_data['time_stamp'] = pd.to_datetime(example_data['time_stamp'])
