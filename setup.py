@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-VERSION = '0.0.2'
+__version__ = '0.0.3'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -32,13 +32,14 @@ install_requires = [x.strip() for x in all_reqs if 'git+' not in x]
 dependency_links = [x.strip().replace('git+', '') for x in all_reqs if 'git+' in x]
 
 setup(
-    name='pyculiarity',
-    version='0.0.2',
-    description='A Python port of Twitter\'s AnomalyDetection R Package.',
+    name='pyculiar',
+    version=__version__,
+    description='A pure python port of Twitter\'s AnomalyDetection R Package.',
     long_description=__doc__,
-    url='https://github.com/nicolasmiller/pyculiarity',
-    author='Nicolas Steven Miller',
-    author_email='nicolasmiller@gmail.com',
+    url='https://github.com/wdm0006/pyculiarity',
+    download_url='https://github.com/wdm0006/pyculiarity/tarball/' + __version__,
+    author='Will McGinnis & Nicolas Steven Miller',
+    author_email='will@predikto.com',
     license='GPL',
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -46,6 +47,8 @@ setup(
         'Topic :: Scientific/Engineering',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
     ],
     keywords='data anomaly detection pandas timeseries',
     packages=['pyculiarity'],

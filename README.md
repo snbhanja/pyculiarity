@@ -13,6 +13,14 @@ I've also stripped out some unused/unimplimented code to try to make this a litt
 part is a work in progress. Part of that includes more intuitive handling of the timestamps, just have a 'timestamp' 
 column with unix timestamps in it.
 
+Installation
+------------
+
+The original library is on pypi as pyculiarity, so to not clash with that, I've uploaded this as pyculiar. It will still
+install the libarary as pyculiarity so this should function as a drop in replacement.
+
+    pip install pyculiar
+
 Usage
 -----
 
