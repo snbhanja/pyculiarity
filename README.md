@@ -1,11 +1,17 @@
 pyculiarity
 ===========
 
-A Python port of Twitter's AnomalyDetection R Package. The original source and examples are available here: https://github.com/twitter/AnomalyDetection.
+A minimal and pure python fork of @nicolasmiller's library [pyculiarity](https://github.com/nicolasmiller/pyculiarity). 
+That is a Python port of Twitter's AnomalyDetection R Package. The original source and examples are available 
+[here](https://github.com/twitter/AnomalyDetection).
 
-Targeting python3 compatibility and no dependency on R. This is done using statsmodel's young `tsa.seasonal_decompose`, 
+This fork is focused on python3 compatibility and no dependency on R. This is done using statsmodel's young `tsa.seasonal_decompose`, 
 which differs in output from the Loess STL implementation used by the original pyculiarity library. The results are not
 identical as a result, but are pretty close.
+
+I've also stripped out some unused/unimplimented code to try to make this a little more readable/understandable.  That 
+part is a work in progress. Part of that includes more intuitive handling of the timestamps, just have a 'timestamp' 
+column with unix timestamps in it.
 
 Usage
 -----
