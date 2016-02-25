@@ -73,6 +73,7 @@ The tests are run with nose as follows:
 Copyright and License
 ---------------------
 
+Changes Copyright 2016 Will McGinnis
 Python port Copyright 2015 Nicolas Steven Miller
 Original R source Copyright 2015 Twitter, Inc and other contributors
 
