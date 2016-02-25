@@ -29,8 +29,7 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
     """
 
     if num_obs_per_period is None:
-        raise ValueError(
-            "must supply period length for time series decomposition")
+        raise ValueError("must supply period length for time series decomposition")
 
     if list(data.columns.values) != ["timestamp", "value"]:
         data.columns = ["timestamp", "value"]
@@ -40,19 +39,15 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
     # Check to make sure we have at least two periods worth of data for
     # anomaly context
     if num_obs < num_obs_per_period * 2:
-        raise ValueError(
-            "Anom detection needs at least 2 periods worth of data")
-
-    # Check if our timestamps are posix
-    posix_timestamp = data.dtypes[0].type is np.datetime64
+        print("Anom detection needs at least 2 periods worth of data")
+        return None
 
     # run length encode result of isnull, check for internal nulls
     if (len(lmap(lambda x: x[0], list(groupby(ps.isnull(
             ps.concat([ps.Series([np.nan]),
                        data.value,
                        ps.Series([np.nan])])))))) > 3):
-        raise ValueError(
-            "Data contains non-leading NAs. We suggest replacing NAs with interpolated values (see na.approx in Zoo package).")
+        raise ValueError("Data contains non-leading NAs. We suggest replacing NAs with interpolated values (see na.approx in Zoo package).")
     else:
         data = data.dropna()
 
@@ -68,9 +63,7 @@ def detect_anoms(data, k=0.49, alpha=0.05, num_obs_per_period=None,
         }
         resample_period = resample_period.get(num_obs_per_period)
         if not resample_period:
-            raise ValueError(
-                'Unsupported resample period: %d' %
-                resample_period)
+            raise ValueError('Unsupported resample period: %d' %resample_period)
         data = data.resample(resample_period)
 
     decomp = stl(data.value, np=num_obs_per_period)
