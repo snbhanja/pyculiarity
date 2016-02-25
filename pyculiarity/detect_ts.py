@@ -247,6 +247,6 @@ def detect_ts(df, max_anoms=0.10, direction='pos', alpha=0.05, threshold=None, e
 
     # convert timestamps back to unix time
     anoms['timestamp'] = anoms['timestamp'].astype(np.int64)
-    anoms['timestamp'] = anoms['timestamp'].map(lambda x: x * 10e-9)
+    anoms['timestamp'] = anoms['timestamp'].map(lambda x: x * 10e-10)
 
     return {'anoms': anoms}
