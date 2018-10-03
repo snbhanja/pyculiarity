@@ -5,7 +5,8 @@ import copy
 
 from past.builtins import basestring
 from pandas import DataFrame, to_datetime
-from pandas.lib import Timestamp
+#from pandas.lib import Timestamp
+from pandas._libs.tslibs.timestamps import Timestamp
 import numpy as np
 
 from pyculiarity.date_utils import get_gran
