@@ -1,6 +1,10 @@
 pyculiarity
 ===========
 
+Install this repo with below command,
+!pip install --upgrade git+https://github.com/snbhanja/pyculiarity.git
+
+###############################################################################################################################
 A minimal and pure python fork of @nicolasmiller's library [pyculiarity](https://github.com/nicolasmiller/pyculiarity). 
 That is a Python port of Twitter's AnomalyDetection R Package. The original source and examples are available 
 [here](https://github.com/twitter/AnomalyDetection).
